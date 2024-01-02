@@ -52,7 +52,7 @@ class ShellySwitch : public Component, public mgos::hap::Service {
   bool IsIdle() override;
 
   bool GetOutputState() const;
-  void SetOutputState(bool new_state, const char *source);
+  virtual void SetOutputState(bool new_state, const char *source);
 
   // Additional input(s) are or'ed with the primary one.
   void AddInput(Input *in);
@@ -87,6 +87,10 @@ class ShellySwitch : public Component, public mgos::hap::Service {
   mgos::hap::Characteristic *total_power_char_ = nullptr;
   float last_power_ = 0.0f;
   float last_total_power_ = 0.0f;
+
+  void SendNotifications();
+  virtual void ArmUpdateTimer() {
+  }
 };
 
 }  // namespace shelly

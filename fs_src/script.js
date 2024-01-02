@@ -405,6 +405,19 @@ function swSetConfig(c) {
     cfg.in_mode = parseInt(el(c, "in_mode").value);
   }
   cfg.valve_type = (svcType == 3) ? parseInt(el(c, "valve_type").value) : -1;
+
+  if (svcType == "4") {
+    cfg.lb_timer_rate = parseInt(el(c, "lb_timer_rate").value);
+    cfg.lb_timer_step = parseInt(el(c, "lb_timer_step").value);
+    cfg.lb_timer_always_on_enabled = el(c, "lb_timer_always_on_enabled").checked;
+    cfg.lb_timer_start_value = parseInt(el(c, "lb_timer_start_value").value);
+  } else {
+    cfg.lb_timer_rate = -1;
+    cfg.lb_timer_step = -1;
+    cfg.lb_timer_always_on_enabled = -1;
+    cfg.lb_timer_start_value = -1;
+  }
+
   setComponentConfig(c, cfg, spinner);
 }
 
@@ -708,6 +721,18 @@ function updateComponent(cd) {
           updateInnerText(el(c, "valve_type_label"), "Valve Type:");
         } else {
           el(c, "valve_type_container").style.display = "none";
+        }
+
+        if (cd.svc_type == 4) {
+          el(c, "auto_off_settings_container").style.display = "none";
+          el(c, "lb_timer_settings_container").style.display = "block";
+          selectIfNotModified(el(c, "lb_timer_rate"), cd.lb_timer_rate);
+          selectIfNotModified(el(c, "lb_timer_step"), cd.lb_timer_step);
+          checkIfNotModified(el(c, "lb_timer_always_on_enabled"), cd.lb_timer_always_on_enabled);
+          setValueIfNotModified(el(c, "lb_timer_start_value"), cd.lb_timer_start_value);
+        } else {
+          el(c, "auto_off_settings_container").style.display = "block";
+          el(c, "lb_timer_settings_container").style.display = "none";
         }
       }
       selectIfNotModified(el(c, "initial"), cd.initial);

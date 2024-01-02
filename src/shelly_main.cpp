@@ -50,6 +50,7 @@
 #include "shelly_hap_switch.hpp"
 #include "shelly_hap_temperature_sensor.hpp"
 #include "shelly_hap_valve.hpp"
+#include "shelly_hap_light_timer.hpp"
 #include "shelly_input.hpp"
 #include "shelly_ota.hpp"
 #include "shelly_output.hpp"
@@ -170,6 +171,11 @@ void CreateHAPSwitch(int id, const struct mgos_config_sw *sw_cfg,
       cat = kHAPAccessoryCategory_Faucets;
       aid = SHELLY_HAP_AID_BASE_VALVE + id;
       sw.reset(new hap::Valve(id, in, out, pm, led_out, cfg));
+      break;
+    case 4:
+      cat = kHAPAccessoryCategory_Lighting;
+      aid = SHELLY_HAP_AID_BASE_LIGHTING + id;
+      sw.reset(new hap::LightTimer(id, in, out, pm, led_out, cfg));
       break;
     default:
       sw.reset(new ShellySwitch(id, in, out, pm, led_out, cfg));
